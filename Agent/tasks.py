@@ -80,56 +80,47 @@ Code:
     )
 
 
+
+from crewai import Task
+
 def final_response_task(agent):
     return Task(
         description="""
-You are a STRICT program analyzer.
+You are a PROGRAM EXECUTION ANALYZER.
 
-Your responsibilities:
-1. Provide the FINAL corrected FULL code
-2. Predict the EXACT program output (dry run)
-3. Explain EVERY fix clearly
+Your ONLY responsibilities:
+1. Produce a FINAL, RUNNABLE version of the input code
+2. Predict the EXACT output produced by the program (dry run)
 
-MANDATORY RULES:
-- NEVER use generic sentences
-- NEVER say "No errors were found" if ANYTHING changed
-- NEVER invent fixes
-- If code was already correct, explicitly say: "No changes were required" AND explain WHY
-- ALWAYS show exact:
-  bug → fixed line → reason
-- Preserve original programming language
+RULES (VERY IMPORTANT):
+- Preserve the original programming language
+- Fix ONLY what is required to make the code run correctly
+- DO NOT explain fixes
+- DO NOT describe changes
+- DO NOT add comments unless required for execution
+- DO NOT hardcode outputs
+- DO NOT invent behavior
+- If code has print/printf/output → ALWAYS predict output
+- If output repeats → repeat lines explicitly
+- If infinite → say "Infinite output"
 
- If corrected code differs from input in ANY way,
-  you MUST list at least one fix.
-- It is FORBIDDEN to say "No changes were required"
-  if syntax, names, or structure were modified.
+ABSOLUTELY FORBIDDEN:
+- What was fixed
+- Why it was fixed
+- Best practices
+- Explanations
+- Generic text
 
-Return output in EXACT format ONLY:
+RETURN OUTPUT IN THIS EXACT FORMAT ONLY:
 
 <FINAL_CODE>
-(corrected full code)
+(correct runnable code)
 </FINAL_CODE>
 
 <EXPECTED_OUTPUT>
-(exact output after dry run)
+(exact output line by line)
 </EXPECTED_OUTPUT>
-
-<WHAT_WAS_FIXED>
-1. Problem:
-   (exact original wrong line)
-
-   Fixed to:
-   (exact corrected line)
-
-   Reason:
-   (why it was wrong – syntax / runtime / logic)
-
-(Repeat for EVERY issue)
-
-If NO issues:
-- Write "No changes were required" and explain why code is correct.
-</WHAT_WAS_FIXED>
 """,
-        expected_output="Strict corrected code, exact output, and detailed fix explanation",
+        expected_output="Runnable final code and exact predicted output",
         agent=agent
     )

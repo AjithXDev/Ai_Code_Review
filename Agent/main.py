@@ -25,7 +25,7 @@ def detect_language(code: str) -> str:
 
 st.set_page_config(
     page_title="AI Code Review & Output Predictor",
-    page_icon="🧠",
+    
     layout="wide"
 )
 
