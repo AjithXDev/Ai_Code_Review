@@ -27,7 +27,7 @@ Supports **C, C++, Java, Python, and C#**.
 - CrewAI (Multi-Agent Framework)  
 - Groq LLM (LLaMA 3.3)  
 - Pydantic  
-- dotenv  
+
 
 
 
